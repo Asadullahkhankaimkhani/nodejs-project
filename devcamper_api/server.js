@@ -1,11 +1,16 @@
 const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config/config.env" });
+const morgan = require("morgan");
 
 // Modules
 const bootcamp = require("./routes/BootcampRoute");
 
 const app = express();
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 app.use("/api/v1/bootcamp", bootcamp);
 
