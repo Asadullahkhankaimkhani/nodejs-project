@@ -5,6 +5,7 @@ exports.getAllBootcamp = async (req, res, next) => {
     const bootcamps = await Bootcamp.find();
     res.status(200).json({
       status: true,
+      count: bootcamps.length,
       bootcamps,
     });
   } catch (err) {
@@ -13,6 +14,7 @@ exports.getAllBootcamp = async (req, res, next) => {
     });
   }
 };
+
 exports.getSingleBootcamp = async (req, res, next) => {
   try {
     const bootcamp = await Bootcamp.findById(req.params.id);
@@ -43,5 +45,45 @@ exports.createBootcamp = async (req, res, next) => {
   }
 };
 
-exports.updateBootcamp = async (req, res, next) => {};
-exports.deleteBootcamp = async (req, res, next) => {};
+exports.updateBootcamp = async (req, res, next) => {
+  try {
+    const bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!bootcamp) {
+      return res.status(400).json({
+        status: false,
+      });
+    }
+    return res.status(200).json({
+      status: true,
+      bootcamp,
+    });
+  } catch (err) {
+    return res.status(400).json({
+      status: false,
+    });
+  }
+};
+
+exports.deleteBootcamp = async (req, res, next) => {
+  try {
+    const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+
+    if (!bootcamp) {
+      return res.status(400).json({
+        status: false,
+      });
+    }
+    return res.status(200).json({
+      status: true,
+      bootcamp: {},
+    });
+  } catch (err) {
+    return res.status(400).json({
+      status: false,
+    });
+  }
+};
