@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "./config/config.env" });
 const morgan = require("morgan");
 const dbconnect = require("./config/db");
+const errorHandler = require("./middlewares/error");
 
 // Modules
 const bootcamp = require("./routes/BootcampRoute");
@@ -15,6 +16,8 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(express.json());
 app.use("/api/v1/bootcamp", bootcamp);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
