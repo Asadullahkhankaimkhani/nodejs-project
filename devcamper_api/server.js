@@ -13,6 +13,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+app.use(express.json());
 app.use("/api/v1/bootcamp", bootcamp);
 
 const PORT = process.env.PORT || 5000;

@@ -98,3 +98,5 @@ const bootcampSchema = new Schema({
     default: Date.now,
   },
 });
+
+module.exports = mongoose.model("Bootcamp", bootcampSchema);
