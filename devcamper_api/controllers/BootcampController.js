@@ -25,6 +25,7 @@ exports.getSingleBootcamp = AsyncHandler(async (req, res, next) => {
 });
 
 exports.createBootcamp = AsyncHandler(async (req, res, next) => {
+  console.log(req.body);
   const bootcamp = await Bootcamp.create(req.body);
   res.status(201).json(bootcamp);
 });

@@ -9,12 +9,12 @@ const errorHandler = require("./middlewares/error");
 const bootcamp = require("./routes/BootcampRoute");
 
 const app = express();
+app.use(express.json());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.use(express.json());
 app.use("/api/v1/bootcamp", bootcamp);
 
 app.use(errorHandler);
