@@ -1,2 +1,5 @@
 
 devcamper_api/package-lock.json
+*.env
+devcamper_api/config/config.env
+devcamper_api/package-lock.json
