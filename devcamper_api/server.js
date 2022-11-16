@@ -16,6 +16,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/api/v1/bootcamp", bootcamp);
+app.use("/api/v1/course", bootcamp);
 
 app.use(errorHandler);
 
