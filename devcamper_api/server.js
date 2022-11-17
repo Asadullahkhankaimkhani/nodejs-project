@@ -7,6 +7,7 @@ const errorHandler = require("./middlewares/error");
 
 // Modules
 const bootcamp = require("./routes/BootcampRoute");
+const courses = require("./routes/CoursesRoute");
 
 const app = express();
 app.use(express.json());
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/api/v1/bootcamp", bootcamp);
-app.use("/api/v1/course", bootcamp);
+app.use("/api/v1/course", courses);
 
 app.use(errorHandler);
 
