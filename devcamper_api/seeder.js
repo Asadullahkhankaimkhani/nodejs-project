@@ -26,7 +26,6 @@ const course = JSON.parse(
 );
 
 // Import into DB
-
 const importData = async () => {
   try {
     await Bootcamp.create(bootcamp);
@@ -51,6 +50,7 @@ const deleteData = async () => {
   }
 };
 
+// COMMAND LINE ARGUMENTS
 if (process.argv[2] === "-i") {
   importData();
 } else if (process.argv[2] === "-d") {
