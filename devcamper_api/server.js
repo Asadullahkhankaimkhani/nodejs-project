@@ -7,6 +7,7 @@ const errorHandler = require("./middlewares/error");
 const colors = require("colors");
 const fileUpload = require("express-fileupload");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 // Modules
 const bootcamp = require("./routes/BootcampRoute");
@@ -14,7 +15,11 @@ const courses = require("./routes/CoursesRoute");
 const auth = require("./routes/AuthRoute");
 
 const app = express();
+
+// Body Parser
 app.use(express.json());
+// Cookie Parser
+app.use(cookieParser());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
