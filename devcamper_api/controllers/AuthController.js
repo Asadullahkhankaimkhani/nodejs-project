@@ -38,12 +38,35 @@ exports.login = AsyncHandler(async (req, res, next) => {
   if (!isMatch) {
     return next(new ErrorResponse("Invalid credentials ", 401));
   }
-
   sendTokenResponse(user, 200, res);
 });
 
-// Get token from model , create cookie and send response
+exports.getMe = AsyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
 
+exports.forgotPassword = AsyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new ErrorResponse(`There is no user with that email`, 404));
+  }
+
+  const resetToken = user.getResetPasswordToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+// Get token from model , create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
   // create token
   const token = user.getSignedJwtToken();
@@ -63,11 +86,3 @@ const sendTokenResponse = (user, statusCode, res) => {
     token,
   });
 };
-
-exports.getMe = AsyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
-});
