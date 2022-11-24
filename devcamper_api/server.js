@@ -13,6 +13,7 @@ const cookieParser = require("cookie-parser");
 const bootcamp = require("./routes/BootcampRoute");
 const courses = require("./routes/CoursesRoute");
 const auth = require("./routes/AuthRoute");
+const users = require("./routes/UsersRoute");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/v1/bootcamp", bootcamp);
 app.use("/api/v1/course", courses);
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/user", users);
 
 app.use(errorHandler);
 

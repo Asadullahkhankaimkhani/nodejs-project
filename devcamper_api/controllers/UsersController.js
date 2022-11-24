@@ -1,9 +1,8 @@
-const ErrorResponse = require("../utils/errorResponse");
 const AsyncHandler = require("../middlewares/async");
 const User = require("../models/UserModel");
 
 exports.getUsers = AsyncHandler(async (req, res, next) => {
-  res.status(200).json(res.advancedResults);
+  res.status(200).json(res.advanceResults);
 });
 
 exports.getUser = AsyncHandler(async (req, res, next) => {
