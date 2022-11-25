@@ -9,6 +9,7 @@ dotenv.config({ path: "./config/config.env" });
 const Bootcamp = require("./models/BootcampModel");
 const Course = require("./models/CourseModel");
 const User = require("./models/UserModel");
+const Review = require("./models/ReviewModel");
 
 const dbConnect = (async function () {
   try {
@@ -30,12 +31,24 @@ const user = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/users.json`, "utf-8")
 );
 
+const review = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/reviews.json`, "utf-8")
+);
+
 // Import into DB
 const importData = async () => {
   try {
-    await Bootcamp.create(bootcamp);
-    await Course.create(course);
-    await User.create(user);
+    // await Bootcamp.create(bootcamp);
+    // await Course.create(course);
+    // await User.create(user);
+    // await Review.create(review);
+
+    await Promise.all(
+      [Bootcamp.create(bootcamp), Course.create(course)],
+      User.create(user),
+      Review.create(review)
+    );
+
     console.log("Data Imported...");
     process.exit();
   } catch (error) {
@@ -46,9 +59,17 @@ const importData = async () => {
 // Delete Data
 const deleteData = async () => {
   try {
-    await Bootcamp.deleteMany();
-    await Course.deleteMany();
-    await User.deleteMany();
+    // await Bootcamp.deleteMany();
+    // await Course.deleteMany();
+    // await User.deleteMany();
+    // await Review.deleteMany();
+
+    await Promise.all([
+      Bootcamp.deleteMany(),
+      Course.deleteMany(),
+      User.deleteMany(),
+      Review.deleteMany(),
+    ]);
 
     console.log("Data Destroyed...");
     process.exit();

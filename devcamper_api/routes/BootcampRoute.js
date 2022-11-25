@@ -15,9 +15,12 @@ const Bootcamp = require("../models/BootcampModel");
 const advanceResults = require("../middlewares/advancedResult");
 // Include other resources router
 const courseRouter = require("./CoursesRoute");
+const reviewRouter = require("./ReviewRoute");
 
 // Re-route into other resource router
-router.use("/:bootcampId/courses", courseRouter);
+router.use("/:bootcampId/course", courseRouter);
+router.use("/:bootcampId/review", reviewRouter);
+
 router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius);
 router
   .route("/:id/photo")
