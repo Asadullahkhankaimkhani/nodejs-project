@@ -46,11 +46,59 @@ exports.addReview = asyncHandler(async (req, res, next) => {
       404
     );
   }
-
   const review = await Review.create(req.body);
 
   res.status(200).json({
     success: true,
     data: review,
+  });
+});
+
+exports.updateReview = asyncHandler(async (req, res, next) => {
+  let review = await Review.findById(req.params.id);
+
+  if (!review) {
+    new ErrorResponse(`No review found with the id of ${req.params.id}`, 404);
+  }
+
+  //  Make user review belongs to user or user is admin
+  if (review.user.toString() !== req.user.id && user.user.role !== "admin") {
+    new ErrorResponse(
+      `Not authorized to update review ${req.params.bootcampId}`,
+      404
+    );
+  }
+
+  review = await Review.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    data: review,
+  });
+});
+
+exports.deleteReview = asyncHandler(async (req, res, next) => {
+  let review = await Review.findById(req.params.id);
+
+  if (!review) {
+    new ErrorResponse(`No review found with the id of ${req.params.id}`, 404);
+  }
+
+  //  Make user review belongs to user or user is admin
+  if (review.user.toString() !== req.user.id && user.user.role !== "admin") {
+    new ErrorResponse(
+      `Not authorized to update review ${req.params.bootcampId}`,
+      404
+    );
+  }
+
+  await review.remove();
+
+  res.status(200).json({
+    success: true,
+    data: {},
   });
 });
