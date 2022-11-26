@@ -4,10 +4,16 @@ const Bootcamp = require("../models/BootcampModel");
 const geocoder = require("../utils/geocoder");
 const path = require("path");
 
+// @desc      Get all bootcamps
+// @route     GET /api/v1/bootcamps
+// @access    Public
 exports.getAllBootcamp = AsyncHandler(async (req, res, next) => {
   res.status(200).json(res.advanceResults);
 });
 
+// @desc      Get single bootcamp
+// @route     GET /api/v1/bootcamps/:id
+// @access    Public
 exports.getSingleBootcamp = AsyncHandler(async (req, res, next) => {
   const bootcamp = await Bootcamp.findById(req.params.id);
   if (!bootcamp) {
@@ -21,6 +27,9 @@ exports.getSingleBootcamp = AsyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc      Create new bootcamp
+// @route     POST /api/v1/bootcamps
+// @access    Private
 exports.createBootcamp = AsyncHandler(async (req, res, next) => {
   // Add user to req.body
   req.body.user = req.user.id;
@@ -41,6 +50,9 @@ exports.createBootcamp = AsyncHandler(async (req, res, next) => {
   res.status(201).json(bootcamp);
 });
 
+// @desc      Update bootcamp
+// @route     PUT /api/v1/bootcamps/:id
+// @access    Private
 exports.updateBootcamp = AsyncHandler(async (req, res, next) => {
   let bootcamp = await Bootcamp.findById(req.params.id);
 
@@ -70,6 +82,9 @@ exports.updateBootcamp = AsyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc      Delete bootcamp
+// @route     DELETE /api/v1/bootcamps/:id
+// @access    Private
 exports.deleteBootcamp = AsyncHandler(async (req, res, next) => {
   const bootcamp = await Bootcamp.findById(req.params.id);
   if (!bootcamp) {
@@ -93,6 +108,9 @@ exports.deleteBootcamp = AsyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc      Get bootcamps within a radius
+// @route     GET /api/v1/bootcamps/radius/:zipcode/:distance
+// @access    Private
 exports.getBootcampsInRadius = AsyncHandler(async (req, res, next) => {
   const { zipcode, distance } = req.params;
 
@@ -118,6 +136,9 @@ exports.getBootcampsInRadius = AsyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc      Upload photo for bootcamp
+// @route     PUT /api/v1/bootcamps/:id/photo
+// @access    Private
 exports.bootcampPhotoUpload = AsyncHandler(async (req, res, next) => {
   const bootcamp = await Bootcamp.findById(req.params.id);
   if (!bootcamp) {
