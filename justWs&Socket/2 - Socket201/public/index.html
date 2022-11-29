@@ -38,26 +38,4 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
-<script>
-  const socket = io("http://localhost:9000");
-  socket.on("connect", () => {
-    console.log(socket.id);
-  });
-
-  socket.on("messageFromServer", (dataFromServer) => {
-    console.log(dataFromServer);
-    socket.emit("messageToServer", { data: "This is from the client" });
-  });
-  document
-    .querySelector("#message-form")
-    .addEventListener("submit", (event) => {
-      event.preventDefault();
-      const newMessage = document.querySelector("#user-message").value;
-      console.log(newMessage);
-      socket.emit("newMessageToServer", { text: newMessage });
-    });
-
-  socket.on("messageToClient", (msg) => {
-    document.querySelector("#message").innerHTML += ` <li>${msg.text}</li>`;
-  });
-</script>
+<script src="./index.js"></script>
