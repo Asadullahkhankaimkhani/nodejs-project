@@ -18,19 +18,21 @@ io.on("connection", (socket) => {
   socket.on("messageToServer", (dataFromClient) => {
     console.log(dataFromClient);
   });
-  socket.on("newMessageToServer", (msg) => {
-    io.emit("messageToClient", { text: msg.text });
-  });
+
+  socket.join("level1");
+  socket
+    .to("level1")
+    .emit("joined", `${socket.id} say i joined the level 1 room`);
 
   // TODO:  Note
   // The server can still communicate across namespaces
   // but on the clientInformation, the socket needs to in that namespaces
   // in order to get the events
-  setTimeout(() => {
-    io.of("/admin").emit("welcome", "welcome from main channel admin");
-  }, 2000);
+  // setTimeout(() => {
+  //   io.of("/admin").emit("welcome", "welcome from main channel admin");
+  // }, 2000);
 });
-io.of("/admin").on("connection", (socket2) => {
+io.of("/admin").on("connection", (socket) => {
   // socket2.emit("welcome", "welcome message form admin channel");
   io.of("/admin").emit("welcome", "Welcome to the admin channel 1.0");
 });
