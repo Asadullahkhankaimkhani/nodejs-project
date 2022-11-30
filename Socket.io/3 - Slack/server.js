@@ -33,5 +33,29 @@ namespaces.forEach((namespace) => {
     // a socket has connected to one of our chat group namespaces.
     // send that ns group info back
     nsSocket.emit("nsRoomLoad", namespaces[0].rooms);
+    nsSocket.on("joinRoom", (roomToJoin, numberOfUsersCallback) => {
+      // deal with the history... once we have it
+      nsSocket.join(roomToJoin);
+      const totalUser = io.of("/wiki").adapter.rooms.get(roomToJoin).size;
+      numberOfUsersCallback(totalUser);
+    });
+    nsSocket.on("newMessageToServer", (msg) => {
+      const fullMsg = {
+        text: msg.text,
+        time: Date.now(),
+        username: "asad",
+        avatar: "https://via.placeholder.com/30",
+      };
+      console.log(fullMsg);
+      // Send this message to All the socket that are in the room that this socket is in.
+      // how can we find out what rooms this socket is in?
+      console.log(Array.from(nsSocket.rooms));
+
+      // the user will be in the 2nd room in the object list
+      // this is because the socket always joins its own room on connection
+      // get the keys
+      const roomTitle = Array.from(nsSocket.rooms)[1];
+      io.of("/wiki").to(roomTitle).emit("messageToClients", fullMsg);
+    });
   });
 });
