@@ -7,6 +7,7 @@ app.use(express.static(__dirname + "/public"));
 
 const expressServer = app.listen(9000);
 
+// Cors for socket
 const io = socketio(expressServer, {
   cors: {
     origin: "*",
