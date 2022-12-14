@@ -4,7 +4,7 @@ const socketio = require("socket.io");
 
 app.use(express.static(__dirname + "/public"));
 
-const expressServer = app.listen(9000);
+const expressServer = app.listen(5000);
 
 const io = socketio(expressServer, {
   cors: {
