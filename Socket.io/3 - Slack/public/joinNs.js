@@ -1,4 +1,11 @@
 function joinNs(endPoint) {
+  if (nsSocket) {
+    nsSocket.close();
+    document
+      .querySelector("#user-input")
+      .removeEventListener("submit", formSubmission);
+  }
+
   nsSocket = io(`http://localhost:9000${endPoint}`);
   nsSocket.on("nsRoomLoad", (nsRooms) => {
     const roomList = document.querySelector(".room-list");
@@ -16,7 +23,8 @@ function joinNs(endPoint) {
     let roomNodes = document.getElementsByClassName("room");
     Array.from(roomNodes).forEach((elem) => {
       elem.addEventListener("click", (e) => {
-        console.log("Someone clicked on", e.target.innerHTML);
+        // console.log("Someone clicked on", e.target.innerHTML);
+        joinRoom(e.target.innerText);
       });
     });
     // add room automatically... first time here
@@ -33,12 +41,13 @@ function joinNs(endPoint) {
 
   document
     .querySelector(".message-form")
-    .addEventListener("submit", (event) => {
-      event.preventDefault();
-      const newMessage = document.querySelector("#user-message").value;
-      console.log(newMessage);
-      nsSocket.emit("newMessageToServer", { text: newMessage });
-    });
+    .addEventListener("submit", formSubmission);
+}
+function formSubmission(event) {
+  event.preventDefault();
+  const newMessage = document.querySelector("#user-message").value;
+  console.log(newMessage);
+  nsSocket.emit("newMessageToServer", { text: newMessage });
 }
 
 function buildHtml(msg) {

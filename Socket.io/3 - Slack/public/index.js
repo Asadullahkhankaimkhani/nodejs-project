@@ -15,6 +15,7 @@ socket.on("nsList", (nsData) => {
     elem.addEventListener("click", (e) => {
       const nsEndpoint = elem.getAttribute("ns");
       console.log(nsEndpoint);
+      joinNs(nsEndpoint);
     });
   });
   joinNs("/wiki");
