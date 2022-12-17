@@ -6,7 +6,7 @@ class NameSpace {
     this.endpoint = endpoint;
     this.rooms = [];
   }
-
+// Method 
   addRoom(roomObj) {
     this.rooms.push(roomObj);
   }
