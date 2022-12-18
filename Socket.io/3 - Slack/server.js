@@ -31,6 +31,7 @@ io.on("connection", (socket) => {
 // loop through each namespaces and listen for a connections
 namespaces.forEach((namespace) => {
   io.of(namespace.endpoint).on("connection", (nsSocket) => {
+    const username = nsSocket.handshake.query.username;
     console.log(`${nsSocket.id} has join ${namespace.endpoint}`);
     // a socket has connected to one of our chat group namespaces.
     // send that ns group info back
@@ -56,7 +57,7 @@ namespaces.forEach((namespace) => {
       const fullMsg = {
         text: msg.text,
         time: Date.now(),
-        username: "asad",
+        username: username,
         avatar: "https://via.placeholder.com/30",
       };
       // console.log(fullMsg);
