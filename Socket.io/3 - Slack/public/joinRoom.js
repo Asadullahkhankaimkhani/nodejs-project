@@ -24,6 +24,18 @@ function joinRoom(roomName) {
     ).innerHTML = `${numMember} <span class="glyphicon glyphicon-user"></span></span>`;
     document.querySelector(".curr-room-text").innerHTML = `${roomName} `;
   });
+  let searchBox = document.querySelector("#search-box");
+  searchBox.addEventListener("input", (e) => {
+    let messages = Array.from(document.getElementsByClassName("message-text"));
+
+    messages.forEach((msg) => {
+      if (msg.innerText.indexOf(e.target.value) === -1) {
+        msg.style.display = "none";
+      } else {
+        msg.style.display = "block";
+      }
+    });
+  });
 }
 
 function buildHtml(msg) {

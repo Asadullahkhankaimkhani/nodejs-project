@@ -15,6 +15,7 @@ const io = socketio(expressServer, {
   },
 });
 
+//  Get all the namespaces
 io.on("connection", (socket) => {
   let nsData = namespaces.map((ns) => {
     return {
@@ -34,21 +35,23 @@ namespaces.forEach((namespace) => {
     // a socket has connected to one of our chat group namespaces.
     // send that ns group info back
     nsSocket.emit("nsRoomLoad", namespace.rooms);
+    // Join room namespaces
     nsSocket.on("joinRoom", (roomToJoin, numberOfUsersCallback) => {
       // deal with the history... once we have it
+      const roomToLeave = Array.from(nsSocket.rooms)[0];
+      nsSocket.leave(roomToLeave);
+      updateRoomMembers(namespace, roomToLeave);
       nsSocket.join(roomToJoin);
-      const totalUser = io
-        .of(namespace.endpoint)
-        .adapter.rooms.get(roomToJoin).size;
+
       // numberOfUsersCallback(totalUser);
       const nsRoom = namespace.rooms.find((room) => {
         return room.roomTitle === roomToJoin;
       });
       nsSocket.emit("historyCatchUp", nsRoom.history);
-
-      // Send back the number of users in this room all sockets connected to this room
-      io.of(namespace.endpoint).in(roomToJoin).emit("updateMembers", totalUser);
+      updateRoomMembers(namespace, roomToJoin);
     });
+
+    // Sending messages
     nsSocket.on("newMessageToServer", (msg) => {
       const fullMsg = {
         text: msg.text,
@@ -56,15 +59,15 @@ namespaces.forEach((namespace) => {
         username: "asad",
         avatar: "https://via.placeholder.com/30",
       };
-      console.log(fullMsg);
+      // console.log(fullMsg);
       // Send this message to All the socket that are in the room that this socket is in.
       // how can we find out what rooms this socket is in?
-      console.log(Array.from(nsSocket.rooms));
+      // console.log(Array.from(nsSocket.rooms));
 
       // the user will be in the 2nd room in the object list
       // this is because the socket always joins its own room on connection
       // get the keys
-      const roomTitle = Array.from(nsSocket.rooms)[1];
+      const roomTitle = Array.from(nsSocket.rooms)[0];
       // we need to find the room object fot this room
       const nsRoom = namespace.rooms.find((room) => {
         return room.roomTitle === roomTitle;
@@ -75,3 +78,11 @@ namespaces.forEach((namespace) => {
     });
   });
 });
+
+function updateRoomMembers(namespace, roomTitle) {
+  const totalUser = io
+    .of(namespace.endpoint)
+    .adapter.rooms.get(roomTitle)?.size;
+  // Send back the number of users in this room all sockets connected to this room
+  io.of(namespace.endpoint).in(roomTitle).emit("updateMembers", totalUser);
+}
