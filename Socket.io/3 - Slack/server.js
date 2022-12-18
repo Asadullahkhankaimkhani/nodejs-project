@@ -5,7 +5,9 @@ const namespaces = require("./data/namespaces");
 
 app.use(express.static(__dirname + "/public"));
 
-const expressServer = app.listen(9000);
+const expressServer = app.listen(9000, () => {
+  console.log("server listening on http://localhost:9000");
+});
 
 // Cors for socket
 const io = socketio(expressServer, {
