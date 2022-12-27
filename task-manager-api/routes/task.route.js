@@ -11,6 +11,6 @@ const {
 } = require("../controller/task.controller");
 
 routes.route("/task").post(createTask).get(getAllTask);
-routes.route("/:id").get(getOneTask).patch(updateTask).delete(deleteTask);
+routes.route("/task/:id").get(getOneTask).patch(updateTask).delete(deleteTask);
 
 module.exports = routes;
