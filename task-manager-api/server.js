@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+require("./config/db");
 // import routes
 const task = require("./routes/task.route");
 
@@ -14,6 +15,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1", task);
 
-const PORT = 3000;
+const PORT = 5000;
 
 app.listen(PORT, () => console.log("Server is Running"));

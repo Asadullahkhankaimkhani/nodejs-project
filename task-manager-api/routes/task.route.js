@@ -12,3 +12,5 @@ const {
 
 routes.route("/task").post(createTask).get(getAllTask);
 routes.route("/:id").get(getOneTask).patch(updateTask).delete(deleteTask);
+
+module.exports = routes;
