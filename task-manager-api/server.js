@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+require("dotenv").config();
 require("./config/db");
 // import routes
 const task = require("./routes/task.route");
