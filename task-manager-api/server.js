@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+// import routes
+const task = require("./routes/task.route");
 
 // Middleware
 
@@ -9,6 +11,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Task Manager");
 });
+
+app.use("/api/v1", task);
 
 const PORT = 3000;
 
