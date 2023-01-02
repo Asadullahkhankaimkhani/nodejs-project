@@ -127,3 +127,22 @@
     },
   },
 ];
+
+// get hobbies by age group and push array in array
+[
+  {
+    $unwind: {
+      path: "$hobbies",
+    },
+  },
+  {
+    $group: {
+      _id: {
+        age: "$age",
+      },
+      allHobbies: {
+        $push: "$hobbies",
+      },
+    },
+  },
+];
