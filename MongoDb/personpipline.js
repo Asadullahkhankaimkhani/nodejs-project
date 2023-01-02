@@ -29,6 +29,13 @@
       _id: 0,
       name: 1,
       email: 1,
+      birthdate: {
+        $convert: {
+          input: "$dob.date",
+          to: "date",
+        },
+      },
+      age: "$dob.age",
       location: {
         type: "Point",
         coordinates: [
@@ -58,6 +65,8 @@
       gender: 1,
       email: 1,
       location: 1,
+      birthdate: 1,
+      age: 1,
       fullName: {
         $concat: [
           {
