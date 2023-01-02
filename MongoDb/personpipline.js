@@ -109,4 +109,21 @@
       },
     },
   },
+  {
+    $group: {
+      _id: {
+        birthYear: {
+          $isoWeekYear: "$birthdate",
+        },
+      },
+      numPersons: {
+        $sum: 1,
+      },
+    },
+  },
+  {
+    $sort: {
+      numPersons: -1,
+    },
+  },
 ];
