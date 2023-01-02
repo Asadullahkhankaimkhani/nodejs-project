@@ -141,7 +141,7 @@
         age: "$age",
       },
       allHobbies: {
-        $push: "$hobbies",
+        $addToSet: "$hobbies",
       },
     },
   },
