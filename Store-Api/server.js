@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 
 const app = express();
+require("./config/db");
 
 // imports
 const notFoundMiddleware = require("./middlewares/not-found");
