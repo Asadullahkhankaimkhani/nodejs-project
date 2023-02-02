@@ -9,6 +9,9 @@ require("./config/db");
 const notFoundMiddleware = require("./middlewares/not-found");
 const errorMiddleware = require("./middlewares/error-handler");
 
+// routes
+const productRoute = require("./routes/product.router");
+
 // middleware
 app.use(express.json());
 
@@ -16,6 +19,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("<h1>Store API</h1>");
 });
+app.use("/api/product", productRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
