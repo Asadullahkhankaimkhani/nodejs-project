@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
-
+require("express-async-errors");
 const app = express();
 require("./config/db");
 
@@ -19,7 +19,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
 	res.send("<h1>Store API</h1>");
 });
-app.use("/api/products", productRoute);
+app.use("/api/v1/products", productRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
